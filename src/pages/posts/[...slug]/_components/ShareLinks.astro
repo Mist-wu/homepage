@@ -1,6 +1,7 @@
 ---
 import QRCode from "qrcode";
 import LinkButton from "@/components/LinkButton.astro";
+import QrPopover from "@/components/QrPopover.astro";
 import { tplStr, useTranslations } from "@/i18n";
 import config from "@/config";
 
@@ -28,7 +29,9 @@ const items = await Promise.all(
     // WeChat can't be shared to via URL, so show a QR code of the post instead
     const qrSvg =
       name === "wechat"
-        ? await QRCode.toString(pageUrl.href, { type: "svg", margin: 1 })
+        ? `data:image/svg+xml,${encodeURIComponent(
+            await QRCode.toString(pageUrl.href, { type: "svg", margin: 1 })
+          )}`
         : undefined;
     return { name, url, title, Icon, qrSvg };
   })
@@ -52,14 +55,11 @@ const items = await Promise.all(
                 <Icon class="inline-block size-5 fill-current opacity-90" />
                 <span class="sr-only">{title}</span>
               </button>
-              <div
+              <QrPopover
                 id={`share-${name}`}
-                popover
-                class="border-border bg-background text-foreground m-auto rounded border p-4 text-center backdrop:bg-black/40"
-              >
-                <div class="mx-auto size-48 bg-white" set:html={qrSvg} />
-                <p class="mt-2 text-sm">Scan with WeChat to share</p>
-              </div>
+                src={qrSvg}
+                alt="QR code of this post"
+              />
             </>
           ) : Icon ? (
             <LinkButton

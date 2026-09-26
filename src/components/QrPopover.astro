@@ -1,0 +1,17 @@
+---
+type Props = {
+  id: string;
+  src: string;
+  alt: string;
+};
+
+const { id, src, alt } = Astro.props;
+---
+
+<div
+  id={id}
+  popover
+  class="m-auto rounded-2xl bg-white p-3 shadow-2xl backdrop:bg-black/50 backdrop:backdrop-blur-sm"
+>
+  <img src={src} alt={alt} class="block w-60 rounded-xl" />
+</div>

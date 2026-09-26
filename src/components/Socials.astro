@@ -1,6 +1,7 @@
 ---
 import config from "@/config";
 import LinkButton from "./LinkButton.astro";
+import QrPopover from "./QrPopover.astro";
 
 const { site, socials } = config;
 
@@ -29,31 +30,41 @@ const items = await Promise.all(
 );
 
 const iconClass = "inline-block size-5 fill-current opacity-90";
+
+// Socials render more than once per page (hero + footer), so popover ids need to be unique
+const uid = Math.random().toString(36).slice(2, 8);
 ---
 
 <div class="flex flex-wrap items-center gap-1">
   {
     items.map(({ name, url, title, Icon }) =>
       Icon === undefined ? null : name === "wechat" ? (
-        // WeChat has no profile URL; url is a QR code image shown on hover/focus
-        <span class="group/qr relative inline-flex">
+        // WeChat has no profile URL; url is a QR code image shown on click
+        <>
           <button
             type="button"
+            popovertarget={`wechat-qr-${uid}`}
             class="group hover:text-accent inline-flex cursor-pointer items-center gap-1 p-2 hover:rotate-6 sm:p-1"
-            aria-label={title}
+            title={title}
           >
             <Icon class={iconClass} />
+            <span class="sr-only">{title}</span>
           </button>
-          <span class="border-border bg-background pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 hidden w-44 -translate-x-1/2 rounded border p-2 shadow-lg group-focus-within/qr:block group-hover/qr:block">
-            <img
-              src={url}
-              alt={`${site.title}'s WeChat QR code`}
-              class="w-full rounded-sm"
-            />
-          </span>
-        </span>
+          <QrPopover
+            id={`wechat-qr-${uid}`}
+            src={url}
+            alt={`${site.title}'s WeChat QR code`}
+          />
+        </>
       ) : (
-        <LinkButton href={url} class="p-2 hover:rotate-6 sm:p-1" title={title}>
+        <LinkButton
+          href={url}
+          class="p-2 hover:rotate-6 sm:p-1"
+          title={title}
+          {...(url.startsWith("mailto:")
+            ? {}
+            : { target: "_blank", rel: "noopener noreferrer" })}
+        >
           <Icon class={iconClass} />
           <span class="sr-only">{title}</span>
         </LinkButton>
