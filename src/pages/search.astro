@@ -50,7 +50,10 @@ const t = useTranslations(locale);
     const pageFindSearch: HTMLElement | null =
       document.querySelector("#pagefind-search");
 
-    if (!pageFindSearch) return;
+    // Init is async, so the initial call and astro:after-swap can race and
+    // render two search boxes; mark the container synchronously to prevent it
+    if (!pageFindSearch || pageFindSearch.dataset.initialized) return;
+    pageFindSearch.dataset.initialized = "true";
 
     const bundlePath = pageFindSearch?.dataset?.bundlePath;
     if (!bundlePath) return;
