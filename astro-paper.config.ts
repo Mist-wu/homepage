@@ -4,7 +4,7 @@ export default defineAstroPaperConfig({
   site: {
     url: "https://mistwu.com/",
     title: "Mist Wu",
-    description: "Student at BUPT. I build things for the web.",
+    description: "Student at BUPT. I build things for the web & AI.",
     author: "Mist Wu",
     profile: "https://github.com/Mist-wu",
     ogImage: "default-og.jpg",

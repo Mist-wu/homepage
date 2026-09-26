@@ -34,3 +34,7 @@ compose.override.yaml
 
 # wrangler
 .wrangler/
+
+# local notes
+content.md
+references.md
