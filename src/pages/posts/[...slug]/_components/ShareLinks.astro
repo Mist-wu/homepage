@@ -46,10 +46,10 @@ const items = await Promise.all(
               <button
                 type="button"
                 popovertarget={`share-${name}`}
-                class="group hover:text-accent inline-flex scale-90 cursor-pointer items-center gap-1 p-2 hover:rotate-6 sm:p-1"
+                class="group hover:text-accent inline-flex cursor-pointer items-center gap-1 p-2 hover:rotate-6 sm:p-1"
                 title={title}
               >
-                <Icon class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110" />
+                <Icon class="inline-block size-5 fill-current opacity-90" />
                 <span class="sr-only">{title}</span>
               </button>
               <div
@@ -64,12 +64,12 @@ const items = await Promise.all(
           ) : Icon ? (
             <LinkButton
               href={`${url}${pageUrl}`}
-              class="scale-90 p-2 hover:rotate-6 sm:p-1"
+              class="p-2 hover:rotate-6 sm:p-1"
               title={title}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Icon class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110" />
+              <Icon class="inline-block size-5 fill-current opacity-90" />
               <span class="sr-only">{title}</span>
             </LinkButton>
           ) : null

@@ -29,6 +29,11 @@ export default defineAstroPaperConfig({
     search: "pagefind",
   },
   socials: [
+    { name: "x",        url: "https://x.com/istMnoob" },
+    { name: "bilibili", url: "https://space.bilibili.com/499802523" },
+    // For WeChat, url is the QR code image shown on hover
+    { name: "wechat",   url: "https://raw.githubusercontent.com/Mist-wu/my-assert/refs/heads/main/pic/wechatQR.jpg" },
+    { name: "mail",     url: "mailto:vertexgod@bupt.edu.cn" },
     { name: "github",   url: "https://github.com/Mist-wu" },
   ],
   shareLinks: [
