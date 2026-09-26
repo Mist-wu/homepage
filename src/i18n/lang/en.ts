@@ -5,6 +5,7 @@ export default {
     home: "Home",
     posts: "Posts",
     tags: "Tags",
+    projects: "Projects",
     about: "About",
     archives: "Archives",
     search: "Search",
@@ -52,6 +53,9 @@ export default {
 
     searchTitle: "Search",
     searchDesc: "Search any article ...",
+
+    projectsTitle: "Projects",
+    projectsDesc: "Things I've built.",
   },
   a11y: {
     skipToContent: "Skip to content",

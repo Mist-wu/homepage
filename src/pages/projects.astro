@@ -1,0 +1,60 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Footer from "@/components/Footer.astro";
+import projects from "@/data/projects";
+import { useTranslations } from "@/i18n";
+import config from "@/config";
+
+const t = useTranslations(Astro.currentLocale ?? config.site.lang);
+---
+
+<Layout title={`${t.pages.projectsTitle} | ${config.site.title}`}>
+  <Header />
+  <Breadcrumb />
+  <Main pageTitle={t.pages.projectsTitle} pageDesc={t.pages.projectsDesc}>
+    <ul class="grid gap-6 md:grid-cols-2">
+      {
+        projects.map(({ title, description, href, imgSrc }) => (
+          <li class="border-border flex flex-col overflow-hidden rounded-md border-2">
+            {imgSrc && (
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={imgSrc}
+                  alt={title}
+                  class="aspect-video w-full object-cover"
+                  loading="lazy"
+                />
+              </a>
+            )}
+            <div class="flex flex-1 flex-col p-6">
+              <h2 class="mb-3 text-2xl font-bold">
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-accent"
+                >
+                  {title}
+                </a>
+              </h2>
+              <p class="mb-3 flex-1 opacity-80">{description}</p>
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-accent font-medium hover:underline"
+                aria-label={`Learn more about ${title}`}
+              >
+                Learn more &rarr;
+              </a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </Main>
+  <Footer />
+</Layout>
