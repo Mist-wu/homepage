@@ -1,4 +1,5 @@
 ---
+import QRCode from "qrcode";
 import LinkButton from "@/components/LinkButton.astro";
 import { tplStr, useTranslations } from "@/i18n";
 import config from "@/config";
@@ -24,7 +25,12 @@ const items = await Promise.all(
       (name === "mail"
         ? t.post.sharePostViaEmail
         : tplStr(t.post.sharePostOn, { platform: platformLabel(name) }));
-    return { url, title, Icon };
+    // WeChat can't be shared to via URL, so show a QR code of the post instead
+    const qrSvg =
+      name === "wechat"
+        ? await QRCode.toString(pageUrl.href, { type: "svg", margin: 1 })
+        : undefined;
+    return { name, url, title, Icon, qrSvg };
   })
 );
 ---
@@ -34,8 +40,28 @@ const items = await Promise.all(
     <div class="flex flex-none flex-col items-center justify-center gap-1 md:items-start">
       <span class="italic">{t.post.sharePostIntro}</span>
       <div class="text-center">
-        {items.map(({ url, title, Icon }) =>
-          Icon ? (
+        {items.map(({ name, url, title, Icon, qrSvg }) =>
+          qrSvg && Icon !== undefined ? (
+            <>
+              <button
+                type="button"
+                popovertarget={`share-${name}`}
+                class="group hover:text-accent inline-flex scale-90 cursor-pointer items-center gap-1 p-2 hover:rotate-6 sm:p-1"
+                title={title}
+              >
+                <Icon class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110" />
+                <span class="sr-only">{title}</span>
+              </button>
+              <div
+                id={`share-${name}`}
+                popover
+                class="border-border bg-background text-foreground m-auto rounded border p-4 text-center backdrop:bg-black/40"
+              >
+                <div class="mx-auto size-48 bg-white" set:html={qrSvg} />
+                <p class="mt-2 text-sm">Scan with WeChat to share</p>
+              </div>
+            </>
+          ) : Icon ? (
             <LinkButton
               href={`${url}${pageUrl}`}
               class="scale-90 p-2 hover:rotate-6 sm:p-1"

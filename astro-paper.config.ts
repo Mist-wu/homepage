@@ -32,11 +32,9 @@ export default defineAstroPaperConfig({
     { name: "github",   url: "https://github.com/Mist-wu" },
   ],
   shareLinks: [
-    { name: "whatsapp", url: "https://wa.me/?text=" },
-    { name: "facebook", url: "https://www.facebook.com/sharer.php?u=" },
-    { name: "x",        url: "https://x.com/intent/post?url=" },
-    { name: "telegram", url: "https://t.me/share/url?url=" },
-    { name: "pinterest", url: "https://pinterest.com/pin/create/button/?url=" },
-    { name: "mail",     url: "mailto:?subject=See%20this%20post&body=" },
+    { name: "x",      url: "https://x.com/intent/post?url=" },
+    // WeChat has no web share URL; rendered as a QR code popover instead
+    { name: "wechat", url: "", linkTitle: "Share this post on WeChat" },
+    { name: "mail",   url: "mailto:?subject=See%20this%20post&body=" },
   ],
 });
