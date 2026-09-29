@@ -1,22 +1,9 @@
 ## Development
 
-When starting the dev server, use background mode:
+- Work directly on `main` in `/Users/wu/Github/homepage`. No worktrees or feature branches.
+- Dev server: `pnpm astro dev --background` (manage with `pnpm astro dev stop|status|logs`). `astro` is not installed globally.
+- Blog posts live in `src/content/posts/*.md(x)`; frontmatter schema is in `src/content.config.ts`.
 
-```
-astro dev --background
-```
+## Docs
 
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
-
-## Documentation
-
-Full documentation: https://docs.astro.build
-
-Consult these guides before working on related tasks:
-
-- [Adding pages, dynamic routes, or middleware](https://docs.astro.build/en/guides/routing/)
-- [Working with Astro components](https://docs.astro.build/en/basics/astro-components/)
-- [Using React, Vue, Svelte, or other framework components](https://docs.astro.build/en/guides/framework-components/)
-- [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
-- [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
-- [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+Astro docs: https://docs.astro.build — check [routing](https://docs.astro.build/en/guides/routing/), [content collections](https://docs.astro.build/en/guides/content-collections/), and [styling](https://docs.astro.build/en/guides/styling/) before related work.
