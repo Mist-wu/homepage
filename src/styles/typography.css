@@ -59,6 +59,12 @@
       @apply opacity-75;
     }
 
+    /* Inline icons (e.g. imported SVG components) flow with the text */
+    p svg,
+    li svg {
+      @apply inline align-[-0.125em];
+    }
+
     table {
       th,
       td {
