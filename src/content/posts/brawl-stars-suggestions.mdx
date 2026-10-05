@@ -7,6 +7,9 @@ draft: true
 ---
 
 import EmotePanel from "@/components/blog/EmotePanel.astro";
+import { Image } from "astro:assets";
+import quickJoin from "@/assets/posts/brawl-stars/quick-join.png";
+import searching from "@/assets/posts/brawl-stars/searching.png";
 
 ## 表情位
 
@@ -42,7 +45,12 @@ import EmotePanel from "@/components/blog/EmotePanel.astro";
 
 ## 其他细节方面
 
-可以管理自己发出去的好友请求，友谊赛可以像正常对战一样寻找其他玩家，其他玩家也可加入
+可以管理自己发出去的好友请求；友谊赛可以像正常对战一样寻找其他玩家，其他玩家也可加入；街区把房主功能恢复。
+
+<div class="not-prose my-6 flex flex-wrap items-center justify-center gap-6">
+  <Image src={quickJoin} alt="快速加入按钮" width={200} style="margin:0;border-radius:8px" />
+  <Image src={searching} alt="寻找中" width={150} style="margin:0;border-radius:8px" />
+</div>
 
 ---
 
