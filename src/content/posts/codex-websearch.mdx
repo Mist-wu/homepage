@@ -1,6 +1,6 @@
 ---
-title: pi-agent最好的联网搜索工具？
-description: 有关Codex订阅中websearch的研究
+title: pi-agent 最好的联网搜索工具？
+description: 有关 Codex 订阅中 websearch 的研究
 pubDatetime: 2026-09-01T20:00:00+08:00
 tags: [codex, pi, agent]
 draft: true
@@ -9,6 +9,123 @@ draft: true
 import OpenAIIcon from "@/assets/icons/brands/openai.svg";
 import CodexIcon from "@/assets/icons/brands/codex.svg";
 
-## ni
+<CodexIcon /> Codex 用 <OpenAIIcon /> ChatGPT 账号登录后，可以调用一个搜索接口：`POST https://chatgpt.com/backend-api/codex/alpha/search`。Codex 自己的 `web_search` 工具就是靠它联网的。我把它接进了 pi，写成扩展 [websearch](https://github.com/Mist-wu/pi-extensions/tree/main/websearch)。
 
-<CodexIcon /> Codex 是 <OpenAIIcon /> OpenAI 的编程 agent。
+这篇记录接口怎么调、是否消耗 Codex 额度、能开多少并发，以及搜索质量。所有数据来自 2026 年 9 月 1 日的实测，账号是 Pro 计划，一共调用了 204 次。
+
+## Table of contents
+
+## 接口
+
+接口地址和请求格式来自 Codex 源码：`codex-rs/codex-api/src/endpoint/search.rs` 发请求，`codex-rs/codex-api/src/search.rs` 定义请求和响应的结构。
+
+请求头需要两项凭据：
+
+- `Authorization`：`Bearer` 加 ChatGPT 登录后拿到的 access token。
+- `chatgpt-account-id`：账号 ID，从 access token（一个 JWT）的 `https://api.openai.com/auth.chatgpt_account_id` 字段里取。
+
+请求体是这样的：
+
+```json
+{
+  "id": "会话 ID，同一会话里的 open、find 会用到前面搜索的结果",
+  "model": "gpt-6-luna",
+  "commands": {
+    "search_query": [{ "q": "Astro 7 release date" }],
+    "response_length": "short"
+  },
+  "settings": {
+    "search_context_size": "medium",
+    "allowed_callers": ["direct"],
+    "external_web_access": true
+  },
+  "max_output_tokens": 6000
+}
+```
+
+`commands` 里可以放这些命令，一次请求可以组合多个：
+
+| 命令 | 作用 |
+| --- | --- |
+| `search_query`、`image_query` | 文字搜索、图片搜索。`search_query` 最多 4 条 |
+| `open`、`click`、`find`、`screenshot` | 打开搜索结果或任意网址，点击页面里的链接，在页面里查找文字，截图 |
+| `weather`、`time`、`finance`、`sports` | 天气、时间、股价、体育比分 |
+| `response_length` | `short`、`medium` 或 `long`，控制每条结果带多少正文 |
+
+响应有三个字段：
+
+- `output`：给模型读的纯文本。每条结果包括标题、网址、发布和抓取时间，以及网页正文。正文前面有 `turn0search0` 这样的引用编号。
+- `results`：结构化的结果列表，每条有 `title`、`url`、`domain`、`snippet` 和 `ref_id`。
+- `encrypted_output`：加密的内容，Codex 内部用，第三方用不上。
+
+一次普通搜索大约 2～3 秒返回。
+
+## 不消耗额度
+
+ChatGPT 账号有一个查用量的接口：`GET https://chatgpt.com/backend-api/wham/usage`。它返回每周用量的百分比 `used_percent`，以及额度余额 `credits.balance`。余额精确到小数点后 10 位。
+
+我在每轮测试前后各查一次。204 次搜索一共拿回 400 多万字符的网页内容，前后两个数字都没变：
+
+| | 测试前 | 测试后 |
+| --- | --- | --- |
+| 每周用量 | 48% | 48% |
+| 额度余额 | 52512.7638435000 | 52512.7638435000 |
+
+用量百分比只精确到 1%，单看它说明不了什么。更直接的证据在响应头里。模型接口 `/codex/responses` 的每个响应，都带一组计量用的响应头，比如 `x-codex-primary-used-percent`、`x-codex-credits-balance`。搜索接口的响应里一个都没有。
+
+所以可以判断：搜索请求不走模型调用的计量。我只测了 Pro 计划，其他计划的账号能不能调用这个接口，我没有验证。
+
+## 并发
+
+我用同一个账号同时发出 10、25、50、100 个搜索请求。10～50 并发时轮流用 20 个关键词，100 并发时每个请求的关键词都不同：
+
+| 并发数 | 成功 | 失败 | 中位延迟 | 最慢 |
+| --- | --- | --- | --- | --- |
+| 10 | 10 | 0 | 2.5 s | 5.8 s |
+| 25 | 25 | 0 | 2.6 s | 3.9 s |
+| 50 | 50 | 0 | 2.7 s | 6.2 s |
+| 100 | 98 | 2（503） | 4.9 s | 13.4 s |
+
+整个测试过程没有出现一次 429，也就是说没有碰到限流。100 并发时有 2 个请求返回 503，报错是 `upstream connect error or disconnect/reset before headers`。这是上游连接断开，重试就好了，不是限流。并发到 100 以后，中位延迟从 2.7 秒涨到 4.9 秒。
+
+平时给 agent 用，一次最多几个并发，完全不用担心。
+
+## 质量
+
+它能搜到很新的内容。比如搜“Astro 7 release date”，第一条就是 Astro 官方博客，页面抓取时间是两天前。
+
+几个好用的地方：
+
+- `output` 直接带网页正文，不只是摘要。agent 拿到结果就能读，大多数情况不用再单独打开网页。
+- 一次请求可以放 4 条查询。实测 4 条查询一共返回 41 条结果，耗时 2.5 秒，和查 1 条差不多。
+- 天气、时间、股价这类查询直接返回一句结论。比如查北京天气，返回了当前温度和之后几天的预报。
+- `open` 可以打开任意网址，不必先搜索。
+
+需要注意的地方：
+
+- **输出有上限。** `max_output_tokens` 默认 6000，实测输出最多 24003 字符，超出的部分直接截断。改成 128000 后，`response_length` 设 `short`、`medium`、`long`，输出分别是 1.6 万、2.5 万和 3.5 万字符。
+- 限定域名不够准。我把搜索范围限定在 `docs.astro.build`，排在前面的却是 `v7-2.previews.docs.astro.build` 这样的预览站，以及 `v5.docs.astro.build` 的旧版文档。
+- 中文结果比较杂。搜“荒野乱斗 最新 平衡性调整”，结果大多相关，但混进了一条另一款游戏《荒野行动》的新闻，排在前面的也多是播放量很低的 YouTube 视频。
+- `find` 返回的是页面的一段原文，从第 0 行开始，不是只返回匹配的那几行。我的扩展会在本地再过滤一遍，只留下匹配的行和前后两行。
+- 请求里的 `model` 字段好像没有用。我填了一个不存在的模型名 `no-such-model`，照样返回 200 和正常结果。
+
+## 在 pi 里使用
+
+安装扩展：
+
+```bash
+pi install git:github.com/Mist-wu/pi-extensions
+```
+
+然后在 pi 里运行 `/login`，登录 OpenAI Codex。扩展直接用 pi 保存的这份凭据，不会读 `~/.codex/auth.json`。
+
+两个环境变量可以调整输出：
+
+```bash
+export PI_CODEX_WEB_SEARCH_CONTEXT_SIZE=high       # low、medium、high，默认 medium
+export PI_CODEX_WEB_SEARCH_MAX_OUTPUT_TOKENS=8000  # 1 到 128000，默认 6000
+```
+
+## 风险
+
+`/codex/alpha/search` 是 Codex 内部的 alpha 接口，OpenAI 没有公开文档，随时可能改格式或者关掉。我的扩展把发请求的代码集中在一处，接口变了也好改。
