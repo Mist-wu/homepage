@@ -26,6 +26,11 @@ const { title, description, ...props } = data;
       {title}
     </Heading>
   </a>
+  {
+    import.meta.env.DEV && data.draft && (
+      <span class="text-foreground ms-2 text-lg font-medium">(draft)</span>
+    )
+  }
   <Datetime {...props} />
   <p>{description}</p>
 </li>
