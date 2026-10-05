@@ -50,7 +50,10 @@ const pages = [
 ];
 ---
 
-<figure class="emote-panel not-prose my-8 flex flex-col items-center gap-3">
+<figure
+  class="emote-panel not-prose my-8 flex flex-col items-center gap-3"
+  data-pages={JSON.stringify(pages)}
+>
   <div class="stage" data-open="false">
     <div class="grid">
       {
@@ -124,8 +127,9 @@ const pages = [
   </figcaption>
 </figure>
 
-<script is:inline define:vars={{ pages }}>
+<script is:inline>
   document.querySelectorAll(".emote-panel").forEach(panel => {
+    const pages = JSON.parse(panel.dataset.pages);
     const stage = panel.querySelector(".stage");
     const chat = panel.querySelector(".chat");
     const sw = panel.querySelector(".switch");
