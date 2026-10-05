@@ -1,0 +1,326 @@
+---
+/**
+ * Brawl Stars emote panel mockup. The chat button opens a 3x2 grid; the
+ * upper-right slot becomes a page switch, so 4 slots x 4 pages = 16 emotes.
+ *
+ * Pin images: in-game assets via github.com/AlecksDeee/Brawl-Stars-Pins,
+ * used under Supercell's Fan Content Policy.
+ */
+import type { ImageMetadata } from "astro";
+import { getImage } from "astro:assets";
+
+const files = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/posts/brawl-stars/pins/*.png",
+  { eager: true }
+);
+
+const pin = async (name: string, specific: boolean) => {
+  const src = files[`/src/assets/posts/brawl-stars/pins/${name}.png`].default;
+  const img = await getImage({ src, width: 128, format: "webp" });
+  return { src: img.src, specific };
+};
+
+// Page 1 matches the current in-game panel (the angry slot became the
+// switch); its top two slots stay brawler-specific, everything else is generic.
+const pages = [
+  [
+    await pin("shelly-happy", true),
+    await pin("shelly-sad", true),
+    await pin("default-smile", false),
+    await pin("default-thumbs-down", false),
+  ],
+  [
+    await pin("default-thumbs-up", false),
+    await pin("default-laugh", false),
+    await pin("default-angry", false),
+    await pin("default-sad", false),
+  ],
+  [
+    await pin("default-happy", false),
+    await pin("default-shocked", false),
+    await pin("default-sunglasses", false),
+    await pin("default-grin", false),
+  ],
+  [
+    await pin("default-ecstatic", false),
+    await pin("default-speechless", false),
+    await pin("default-stunned", false),
+    await pin("default-lag", false),
+  ],
+];
+---
+
+<figure class="emote-panel not-prose my-8 flex flex-col items-center gap-3">
+  <div class="stage" data-open="false">
+    <div class="grid">
+      {
+        [0, 1].map(i => (
+          <div class="tile emote-tile" data-slot={i}>
+            <img class="pin" src={pages[0][i].src} alt="" width="64" height="64" />
+            <span class="badge" data-specific={String(pages[0][i].specific)}>
+              {pages[0][i].specific ? "专属" : "通用"}
+            </span>
+          </div>
+        ))
+      }
+
+      <button type="button" class="tile switch" aria-label="切换表情页">
+        <svg
+          class="arrows"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+          <path d="M3 3v5h5"></path>
+          <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path>
+          <path d="M16 16h5v5"></path>
+        </svg>
+        <span class="page">1/{pages.length}</span>
+      </button>
+
+      {
+        [2, 3].map(i => (
+          <div class="tile emote-tile" data-slot={i}>
+            <img class="pin" src={pages[0][i].src} alt="" width="64" height="64" />
+            <span class="badge" data-specific={String(pages[0][i].specific)}>
+              {pages[0][i].specific ? "专属" : "通用"}
+            </span>
+          </div>
+        ))
+      }
+
+      <button type="button" class="tile chat" aria-label="打开表情" aria-expanded="false">
+        <svg class="bubble" viewBox="0 0 120 100" aria-hidden="true">
+          <path
+            d="M22 4H98A18 18 0 0 1 116 22V62A18 18 0 0 1 98 80H69L60 92L51 80H22A18 18 0 0 1 4 62V22A18 18 0 0 1 22 4Z"
+            transform="translate(0 5)"
+            fill="#694450"
+            stroke="#38242b"
+            stroke-width="3"
+            stroke-linejoin="round"></path>
+          <path
+            d="M22 4H98A18 18 0 0 1 116 22V62A18 18 0 0 1 98 80H69L60 92L51 80H22A18 18 0 0 1 4 62V22A18 18 0 0 1 22 4Z"
+            fill="#b09da4"
+            stroke="#38242b"
+            stroke-width="3"
+            stroke-linejoin="round"></path>
+          <path d="M24 9H96" stroke="#c4b3b9" stroke-width="3" stroke-linecap="round"></path>
+          <g fill="#38242b">
+            <circle cx="36" cy="54" r="10"></circle>
+            <circle cx="60" cy="54" r="10"></circle>
+            <circle cx="84" cy="54" r="10"></circle>
+          </g>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <figcaption class="text-center text-sm text-muted-foreground">
+    点右下角打开表情，点右上角切换：4 页一共 16 个表情，第一页上面两个是角色专属表情，其余都是通用表情
+  </figcaption>
+</figure>
+
+<script is:inline define:vars={{ pages }}>
+  document.querySelectorAll(".emote-panel").forEach(panel => {
+    const stage = panel.querySelector(".stage");
+    const chat = panel.querySelector(".chat");
+    const sw = panel.querySelector(".switch");
+    const arrows = panel.querySelector(".arrows");
+    const pageLabel = panel.querySelector(".page");
+    const tiles = [...panel.querySelectorAll(".emote-tile")];
+    const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    pages.flat().forEach(({ src }) => (new Image().src = src));
+    let page = 0;
+    let spins = 0;
+    let timer;
+
+    const setOpen = open => {
+      stage.dataset.open = String(open);
+      chat.setAttribute("aria-expanded", String(open));
+    };
+
+    const setPage = next => {
+      page = next;
+      spins += 1;
+      arrows.style.transform = `rotate(${spins * 180}deg)`;
+      pageLabel.textContent = `${page + 1}/${pages.length}`;
+      tiles.forEach((tile, i) => {
+        const slot = Number(tile.dataset.slot);
+        const delay = reduceMotion ? 0 : i * 50;
+        if (!reduceMotion) {
+          tile.animate(
+            [
+              { transform: "scale(1)" },
+              { transform: "scale(0.6)", opacity: 0.2 },
+              { transform: "scale(1)" },
+            ],
+            { duration: 320, delay, easing: "ease-in-out" }
+          );
+        }
+        setTimeout(() => {
+          const { src, specific } = pages[page][slot];
+          tile.querySelector(".pin").src = src;
+          const badge = tile.querySelector(".badge");
+          badge.dataset.specific = String(specific);
+          badge.textContent = specific ? "专属" : "通用";
+        }, reduceMotion ? 0 : 160 + delay);
+      });
+    };
+
+    const stopDemo = () => clearTimeout(timer);
+
+    chat.addEventListener("click", () => {
+      stopDemo();
+      setOpen(stage.dataset.open !== "true");
+    });
+    sw.addEventListener("click", () => {
+      stopDemo();
+      setPage((page + 1) % pages.length);
+    });
+
+    if (reduceMotion) {
+      setOpen(true);
+      return;
+    }
+
+    // Demo loop: open -> flip through every page -> close -> repeat.
+    const steps = [
+      () => setOpen(true),
+      ...pages.map((_, i) => () => setPage((i + 1) % pages.length)),
+      () => setOpen(false),
+    ];
+    let step = 0;
+    const run = () => {
+      steps[step]();
+      step = (step + 1) % steps.length;
+      timer = setTimeout(run, step === 0 ? 1600 : 1300);
+    };
+    timer = setTimeout(run, 800);
+  });
+</script>
+
+<style>
+  .stage {
+    background: #8c5b6c;
+    border-radius: 14px;
+    padding: 14px;
+    width: min(100%, 340px);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .tile {
+    position: relative;
+    aspect-ratio: 1.35;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #111;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 4px 0 #111;
+    font-family: inherit;
+    transition:
+      transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity 0.2s ease;
+  }
+
+  .pin {
+    width: 62%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: contain;
+    margin: 0;
+    border: 0;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .badge {
+    position: absolute;
+    top: -8px;
+    right: -6px;
+    padding: 1px 5px;
+    border: 2px solid #111;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #111;
+    background: #ffd23f;
+  }
+
+  .badge[data-specific="true"] {
+    color: #fff;
+    background: #8b3fd9;
+  }
+
+  .switch {
+    cursor: pointer;
+    gap: 2px;
+    background: #ffd23f;
+    color: #111;
+    font-weight: 800;
+  }
+
+  .arrows {
+    width: 42%;
+    height: auto;
+    transition: transform 0.35s ease;
+  }
+
+  .page {
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  .chat {
+    cursor: pointer;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .bubble {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .switch:focus-visible,
+  .chat:focus-visible {
+    outline: 3px dashed #fff;
+    outline-offset: 3px;
+  }
+
+  /* Closed: only the chat button is visible */
+  .stage[data-open="false"] .tile:not(.chat) {
+    transform: scale(0.3);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Pop the tiles in one after another when opening */
+  .stage[data-open="true"] .tile:nth-child(1) { transition-delay: 0ms; }
+  .stage[data-open="true"] .tile:nth-child(2) { transition-delay: 40ms; }
+  .stage[data-open="true"] .tile:nth-child(3) { transition-delay: 80ms; }
+  .stage[data-open="true"] .tile:nth-child(4) { transition-delay: 120ms; }
+  .stage[data-open="true"] .tile:nth-child(5) { transition-delay: 160ms; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile,
+    .arrows {
+      transition: none;
+    }
+  }
+</style>

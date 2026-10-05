@@ -2,7 +2,7 @@
 
 - Work directly on `main` in `/Users/wu/Github/homepage`. No worktrees or feature branches.
 - Dev server: `pnpm astro dev --background` (manage with `pnpm astro dev stop|status|logs`). `astro` is not installed globally.
-- Blog posts live in `src/content/posts/*.md(x)`; frontmatter schema is in `src/content.config.ts`.
+- Blog posts are always MDX: `src/content/posts/*.mdx` (use `{/* */}` for comments, not `<!-- -->`); frontmatter schema is in `src/content.config.ts`.
 
 ## Docs
 
