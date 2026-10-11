@@ -11,9 +11,7 @@ import CodexIcon from "@/assets/icons/brands/codex.svg";
 
 <CodexIcon /> Codex 用 <OpenAIIcon /> ChatGPT 账号登录后，可以调用一个搜索接口：`POST https://chatgpt.com/backend-api/codex/alpha/search`。Codex 自己的 `web_search` 工具就是靠它联网的。我把它接进了 pi，写成扩展 [websearch](https://github.com/Mist-wu/pi-extensions/tree/main/websearch)。
 
-这篇记录接口怎么调、是否消耗 Codex 额度、能开多少并发，以及搜索质量。所有数据来自 2026 年 9 月 1 日的实测，账号是 Pro 计划，一共调用了 204 次。
-
-## Table of contents
+本文记录接口如何调用、是否消耗 Codex 额度、能开多少并发，以及搜索质量。所有数据来自 2026 年 9 月 1 日的实测。
 
 ## 接口
 
