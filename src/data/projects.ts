@@ -8,27 +8,24 @@ export type Project = {
 
 const projects: Project[] = [
   {
-    title: "pi-everos-memory",
-    description: "EverOS-backed long-term memory for the pi coding agent.",
-    href: "https://github.com/Mist-wu/pi-everos-memory",
-  },
-  {
-    title: "y2b-rs",
-    description:
-      "Rust CLI/TUI for monitoring YouTube, translating subtitles with pi, and uploading to Bilibili.",
-    href: "https://github.com/Mist-wu/y2b-rs",
+    title: "hire",
+    description: "Recruitment platform for AI agents.",
+    href: "https://github.com/Mist-wu/hire",
   },
   {
     title: "qqbot",
-    description:
-      "QQ group chat bot built on NapCat: one model decides whether to speak, another decides what to say. Supports stickers, web search, and long-term memory.",
+    description: "QQ group chat bot built on NapCat.",
     href: "https://github.com/Mist-wu/qqbot",
   },
   {
-    title: "financePi",
-    description:
-      "Pi-driven crypto trading agent with constrained tools and risk controls.",
-    href: "https://github.com/Mist-wu/financePi",
+    title: "y2b-rs",
+    description: "Rust CLI/TUI for YouTube monitoring and Bilibili upload.",
+    href: "https://github.com/Mist-wu/y2b-rs",
+  },
+  {
+    title: "pi-extensions",
+    description: "Extensions for the Pi coding agent.",
+    href: "https://github.com/Mist-wu/pi-extensions",
   },
   {
     title: "cc-skills",
@@ -36,9 +33,9 @@ const projects: Project[] = [
     href: "https://github.com/Mist-wu/cc-skills",
   },
   {
-    title: "bupt-empty-classroom",
-    description: "An app for finding empty classrooms at BUPT.",
-    href: "https://github.com/Mist-wu/bupt-empty-classroom",
+    title: "kong.bupt8.com",
+    description: "Web app for finding empty classrooms at BUPT.",
+    href: "https://kong.bupt8.com",
   },
 ];
 
