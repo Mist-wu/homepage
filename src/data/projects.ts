@@ -14,7 +14,7 @@ const projects: Project[] = [
   },
   {
     title: "qqbot",
-    description: "QQ group chat bot built on NapCat.",
+    description: "QQ group chat bot combining language model with decision model.",
     href: "https://github.com/Mist-wu/qqbot",
   },
   {
