@@ -1,0 +1,48 @@
+---
+type Props = {
+  text: string;
+};
+
+const { text } = Astro.props;
+---
+
+<button
+  type="button"
+  data-copy-text={text}
+  title="Click to copy"
+  aria-label={`Copy ${text}`}
+  class="bg-muted hover:text-accent cursor-pointer rounded px-1.5 py-0.5 font-mono text-[0.9em] transition-colors"
+  >{text}</button
+>
+
+<script>
+  document.addEventListener("click", async event => {
+    const button = (event.target as Element).closest<HTMLButtonElement>(
+      "[data-copy-text]"
+    );
+    if (!button || button.dataset.copied) return;
+
+    const text = button.dataset.copyText ?? "";
+    let copied = true;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      // Clipboard API is blocked (insecure context, denied permission):
+      // fall back to copying a selection of the button's own text.
+      const range = document.createRange();
+      range.selectNodeContents(button);
+      const selection = window.getSelection();
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+      copied = document.execCommand("copy");
+      selection?.removeAllRanges();
+    }
+
+    button.dataset.copied = "true";
+    button.textContent = copied ? "Copied!" : "Copy failed";
+    setTimeout(() => {
+      button.textContent = text;
+      delete button.dataset.copied;
+    }, 1200);
+  });
+</script>
