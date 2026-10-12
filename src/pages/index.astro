@@ -9,6 +9,7 @@ import Footer from "@/components/Footer.astro";
 import Socials from "@/components/Socials.astro";
 import Card from "@/components/Card.astro";
 import LinkButton from "@/components/LinkButton.astro";
+import TokenHeatmap from "@/components/TokenHeatmap.astro";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 import { useTranslations } from "@/i18n";
 import config from "@/config";
@@ -107,6 +108,11 @@ const homePath = getRelativeLocaleUrl(locale, "");
         <IconArrowRight class="inline-block rtl:-rotate-180" />
       </LinkButton>
     </div>
+
+    <section id="token-usage" class="border-border border-t pt-12 pb-8">
+      <h2 class="mb-4 text-2xl font-semibold tracking-wide">Token Usage</h2>
+      <TokenHeatmap />
+    </section>
   </main>
   <Footer />
 </Layout>
