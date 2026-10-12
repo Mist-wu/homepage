@@ -1,16 +1,18 @@
 ---
 type Props = {
   text: string;
+  /** What lands on the clipboard; defaults to the displayed text. */
+  value?: string;
 };
 
-const { text } = Astro.props;
+const { text, value = text } = Astro.props;
 ---
 
 <button
   type="button"
-  data-copy-text={text}
+  data-copy-text={value}
   title="Click to copy"
-  aria-label={`Copy ${text}`}
+  aria-label={`Copy ${value}`}
   class="hover:text-accent cursor-pointer font-medium underline decoration-dashed underline-offset-4 transition-colors"
   >{text}</button
 >
@@ -22,26 +24,28 @@ const { text } = Astro.props;
     );
     if (!button || button.dataset.copied) return;
 
-    const text = button.dataset.copyText ?? "";
+    const label = button.textContent;
+    const value = button.dataset.copyText ?? "";
     let copied = true;
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText(value);
     } catch {
       // Clipboard API is blocked (insecure context, denied permission):
-      // fall back to copying a selection of the button's own text.
-      const range = document.createRange();
-      range.selectNodeContents(button);
-      const selection = window.getSelection();
-      selection?.removeAllRanges();
-      selection?.addRange(range);
+      // fall back to copying from a throwaway textarea.
+      const textarea = document.createElement("textarea");
+      textarea.value = value;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
       copied = document.execCommand("copy");
-      selection?.removeAllRanges();
+      textarea.remove();
     }
 
     button.dataset.copied = "true";
     button.textContent = copied ? "Copied!" : "Copy failed";
     setTimeout(() => {
-      button.textContent = text;
+      button.textContent = label;
       delete button.dataset.copied;
     }, 1200);
   });
