@@ -15,14 +15,14 @@ import CodexIcon from "@/assets/icons/brands/codex.svg";
 
 ## 接口
 
-接口地址和请求格式来自 Codex 源码：`codex-rs/codex-api/src/endpoint/search.rs` 发请求，`codex-rs/codex-api/src/search.rs` 定义请求和响应的结构。
+接口地址和请求格式来自gh上的 Codex 源码：`codex-rs/codex-api/src/endpoint/search.rs` 发请求，`codex-rs/codex-api/src/search.rs` 定义请求和响应的结构。
 
-请求头需要两项凭据：
+请求头需两项凭据：
 
 - `Authorization`：`Bearer` 加 ChatGPT 登录后拿到的 access token。
 - `chatgpt-account-id`：账号 ID，从 access token（一个 JWT）的 `https://api.openai.com/auth.chatgpt_account_id` 字段里取。
 
-请求体是这样的：
+请求体：
 
 ```json
 {
@@ -71,11 +71,11 @@ ChatGPT 账号有一个查用量的接口：`GET https://chatgpt.com/backend-api
 
 用量百分比只精确到 1%，单看它说明不了什么。更直接的证据在响应头里。模型接口 `/codex/responses` 的每个响应，都带一组计量用的响应头，比如 `x-codex-primary-used-percent`、`x-codex-credits-balance`。搜索接口的响应里一个都没有。
 
-所以可以判断：搜索请求不走模型调用的计量。我只测了 Pro 计划，其他计划的账号能不能调用这个接口，我没有验证。
+由此得：搜索请求不走模型调用的计量。
 
 ## 并发
 
-我用同一个账号同时发出 10、25、50、100 个搜索请求。10～50 并发时轮流用 20 个关键词，100 并发时每个请求的关键词都不同：
+用同一个账号同时发出 10、25、50、100 个搜索请求。10～50 并发时轮流用 20 个关键词，100 并发时每个请求的关键词都不同：
 
 | 并发数 | 成功 | 失败 | 中位延迟 | 最慢 |
 | --- | --- | --- | --- | --- |

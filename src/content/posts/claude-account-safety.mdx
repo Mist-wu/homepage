@@ -1,0 +1,50 @@
+---
+title: Claude 账号防封之个人经验总结
+description: A\不要阻止我给你送钱啊
+pubDatetime: 2026-10-14T20:00:00+08:00
+tags: [claude, anthropic, ai]
+draft: false
+---
+
+import { Image } from "astro:assets";
+import AnthropicIcon from "@/assets/icons/brands/anthropic.svg";
+import ClaudeIcon from "@/assets/icons/brands/claude.svg";
+import devices from "@/assets/posts/claude-account-safety/devices.png";
+import ipTrustScore from "@/assets/posts/claude-account-safety/ip-trust-score.png";
+
+个人情况：20$ 订阅 6 个月，200$ 订阅 2 个月（跟家里人合用），美区谷歌账号注册，梯子用新加坡 / 日本自建节点（net.bupt8.com），支付使用 Google Pay + 招商银行 Visa 卡。
+
+登陆情况如图：
+
+<Image src={devices} alt="Claude 设置中的 Devices 登录会话列表" />
+
+## 有关
+
+1. 不要刚注册就充值  ⭐️⭐️⭐️⭐️⭐️
+2. 不要刚充值就开始 200$  ⭐️⭐️⭐️⭐️
+3. 不要刚充值第一周就快速把周额度跑完  ⭐️⭐️⭐️⭐️
+4. 使用美区 Google 老账号注册（最好开通 Google Cloud，说明 Google 账号这方面过关） ⭐️⭐️⭐️⭐️
+5. 梯子纯净度过关：[ip.net.coffee/claude/](https://ip.net.coffee/claude/)  ⭐️⭐️⭐️⭐️
+
+<Image src={ipTrustScore} alt="ip.net.coffee Claude 出口 IP 信任评分与安全检测" />
+
+6. 不要聊：生物科技、网络安全、AI 算法提升  ⭐️⭐️⭐️
+7. 建议注册后维持一定频率使用（每天一两句话） ⭐️⭐️
+
+## 无关
+
+1. 使用过国内 IP 直连（个人经常，无风控）
+2. 梯子 IP 机房 / 住宅
+3. 语言中文
+4. 使用时间为中国时间
+5. <ClaudeIcon /> Claude 知道你在哪里
+
+## ps
+
+封控分为 KYC 验证和直接封号（一般出充值后）。Apple 申请直接退款；Google Pay 申请有概率先拒绝，跟客服掰扯一下一般一周内退款。
+
+关于为什么 <AnthropicIcon /> 封号这么严格，给他送钱都不要：
+
+1. 漂亮国国家安全政策
+2. 订阅用满 200$ 可以跑出 12000$ 的 API 用量，实际 <AnthropicIcon />  是亏的，其盈利主要来源于企业用户。
+3. 国人开中转站过多，违使用条例
