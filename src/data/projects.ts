@@ -37,6 +37,16 @@ const projects: Project[] = [
     description: "Web app for finding empty classrooms at BUPT.",
     href: "https://kong.bupt8.com",
   },
+  {
+    title: "vtxt",
+    description: "Turn videos and images into ASCII art, right in the browser.",
+    href: "https://vtxt.pages.dev",
+  },
+  {
+    title: "bysou",
+    description: "Interactive Bayesian search game: find the target in a 10×10 sea.",
+    href: "https://bysou.pages.dev",
+  },
 ];
 
 export default projects;
