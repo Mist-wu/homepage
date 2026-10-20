@@ -8,9 +8,9 @@ export type Project = {
 
 const projects: Project[] = [
   {
-    title: "hire",
-    description: "Recruitment platform for AI agents.",
-    href: "https://github.com/Mist-wu/hire",
+    title: "run.bupt8.com",
+    description: "Check and upload BUPT campus running records.",
+    href: "https://run.bupt8.com",
   },
   {
     title: "qqbot",
