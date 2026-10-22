@@ -1,0 +1,17 @@
+---
+title: MacBook 最好用的两个指令
+description: MacBook 最好用的两个指令
+pubDatetime: 2026-10-22T20:00:00+08:00
+tags: [macos]
+draft: false
+---
+
+```bash
+pi
+```
+
+```bash
+echo 'alias nosleep="sudo pmset -a disablesleep 1 && echo 已禁止睡眠"' >> ~/.zshrc
+echo 'alias cansleep="sudo pmset -a disablesleep 0 && echo 已恢复睡眠"' >> ~/.zshrc
+source ~/.zshrc
+```
