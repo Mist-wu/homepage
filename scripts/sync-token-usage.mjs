@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // Regenerates src/data/token-usage.json (daily token totals) from the local
 // TokenTracker queue. Run with `pnpm sync:tokens`.
 //
