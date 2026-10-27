@@ -35,13 +35,13 @@ pnpm dev
 
 ## 写作与修改
 
-| 想改什么 | 改哪里 |
-| --- | --- |
-| 文章 | `src/content/posts/*.md(x)` |
-| 关于页 | `src/content/pages/about.md` |
-| 项目列表 | `src/data/projects.ts` |
-| 站点信息、社交链接、功能开关 | `astro-paper.config.ts` |
-| 配色 / 排版 | `src/styles/` |
+| 想改什么                     | 改哪里                       |
+| ---------------------------- | ---------------------------- |
+| 文章                         | `src/content/posts/*.md(x)`  |
+| 关于页                       | `src/content/pages/about.md` |
+| 项目列表                     | `src/data/projects.ts`       |
+| 站点信息、社交链接、功能开关 | `astro-paper.config.ts`      |
+| 配色 / 排版                  | `src/styles/`                |
 
 文章 frontmatter 至少需要：
 

@@ -108,7 +108,11 @@ const months = Array.from({ length: WEEKS }, (_, week) => {
     aria-hidden="true"
   >
     <span class="me-1">Less</span>
-    {[0, 1, 2, 3, 4].map(level => <span class="cell legend" data-level={level} />)}
+    {
+      [0, 1, 2, 3, 4].map(level => (
+        <span class="cell legend" data-level={level} />
+      ))
+    }
     <span class="ms-1">More</span>
   </div>
   <div class="tip" role="tooltip" hidden></div>

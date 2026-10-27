@@ -14,7 +14,8 @@ const projects: Project[] = [
   },
   {
     title: "qqbot",
-    description: "QQ group chat bot combining language model with decision model.",
+    description:
+      "QQ group chat bot combining language model with decision model.",
     href: "https://github.com/Mist-wu/qqbot",
   },
   {
@@ -44,7 +45,8 @@ const projects: Project[] = [
   },
   {
     title: "bysou",
-    description: "Interactive Bayesian search game: find the target in a 10×10 sea.",
+    description:
+      "Interactive Bayesian search game: find the target in a 10×10 sea.",
     href: "https://bysou.pages.dev",
   },
 ];
