@@ -19,30 +19,21 @@ const { text, value = text } = Astro.props;
 
 <script>
   document.addEventListener("click", async event => {
-    const button = (event.target as Element).closest<HTMLButtonElement>(
-      "[data-copy-text]"
-    );
+    if (!(event.target instanceof Element)) return;
+    const button = event.target.closest<HTMLButtonElement>("[data-copy-text]");
     if (!button || button.dataset.copied) return;
 
     const label = button.textContent;
     const value = button.dataset.copyText ?? "";
-    let copied = true;
+    button.dataset.copied = "true";
+    let copied = false;
     try {
       await navigator.clipboard.writeText(value);
+      copied = true;
     } catch {
-      // Clipboard API is blocked (insecure context, denied permission):
-      // fall back to copying from a throwaway textarea.
-      const textarea = document.createElement("textarea");
-      textarea.value = value;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.appendChild(textarea);
-      textarea.select();
-      copied = document.execCommand("copy");
-      textarea.remove();
+      // Report denied or unavailable clipboard access with the same feedback below.
     }
 
-    button.dataset.copied = "true";
     button.textContent = copied ? "Copied!" : "Copy failed";
     setTimeout(() => {
       button.textContent = label;
