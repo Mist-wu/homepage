@@ -7,7 +7,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build && pagefind --site dist && cp -r dist/pagefind public/",
+    "build": "astro build && pagefind --site dist && cp -r dist/pagefind public/",
+    "check": "astro check && pnpm run lint && pnpm run format:check",
     "preview": "astro preview",
     "sync": "astro sync",
     "sync:tokens": "node scripts/sync-token-usage.mjs",
@@ -15,7 +16,7 @@
     "format:check": "prettier --check .",
     "format": "prettier --write .",
     "lint": "eslint .",
-    "deploy": "rm -rf dist node_modules/.astro && pnpm run build && wrangler deploy"
+    "deploy": "pnpm run check && pnpm run build && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.0",

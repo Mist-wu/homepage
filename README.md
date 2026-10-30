@@ -35,13 +35,13 @@ pnpm dev
 
 ## 写作与修改
 
-| 想改什么 | 改哪里 |
-| --- | --- |
-| 文章 | `src/content/posts/*.md(x)` |
-| 关于页 | `src/content/pages/about.md` |
-| 项目列表 | `src/data/projects.ts` |
-| 站点信息、社交链接、功能开关 | `astro-paper.config.ts` |
-| 配色 / 排版 | `src/styles/` |
+| 想改什么                     | 改哪里                       |
+| ---------------------------- | ---------------------------- |
+| 文章                         | `src/content/posts/*.md(x)`  |
+| 关于页                       | `src/content/pages/about.md` |
+| 项目列表                     | `src/data/projects.ts`       |
+| 站点信息、社交链接、功能开关 | `astro-paper.config.ts`      |
+| 配色 / 排版                  | `src/styles/`                |
 
 文章 frontmatter 至少需要：
 
@@ -62,16 +62,19 @@ tags: [notes]
 pnpm run deploy
 ```
 
-构建（`astro check` → `astro build` → Pagefind 索引）后用 Wrangler 把 `dist/` 作为静态资源部署到 Cloudflare Workers，自定义域名 mistwu.com 在 Cloudflare 控制台绑定。
+先运行一次 `pnpm check`（类型、lint、格式检查），再构建网站和 Pagefind 索引，最后用 Wrangler 部署到 Cloudflare Workers。自定义域名 mistwu.com 在 Cloudflare 控制台绑定。
 
 ## 开发
 
 ```bash
-pnpm build     # 类型检查 + 构建 + 搜索索引
+pnpm check     # 类型 + lint + 格式检查
+pnpm build     # 构建 + 搜索索引
 pnpm preview   # 预览构建结果
 pnpm lint
 pnpm format
 ```
+
+日常预览只需构建；CI 和部署各运行一次完整检查。`scripts/` 下的命令行脚本允许输出日志，网页源码继续禁止 `console`。
 
 ## 致谢
 

@@ -59,7 +59,13 @@ const pages = [
       {
         [0, 1].map(i => (
           <div class="tile emote-tile" data-slot={i}>
-            <img class="pin" src={pages[0][i].src} alt="" width="64" height="64" />
+            <img
+              class="pin"
+              src={pages[0][i].src}
+              alt=""
+              width="64"
+              height="64"
+            />
             <span class="badge" data-specific={String(pages[0][i].specific)}>
               {pages[0][i].specific ? "专属" : "通用"}
             </span>
@@ -89,7 +95,13 @@ const pages = [
       {
         [2, 3].map(i => (
           <div class="tile emote-tile" data-slot={i}>
-            <img class="pin" src={pages[0][i].src} alt="" width="64" height="64" />
+            <img
+              class="pin"
+              src={pages[0][i].src}
+              alt=""
+              width="64"
+              height="64"
+            />
             <span class="badge" data-specific={String(pages[0][i].specific)}>
               {pages[0][i].specific ? "专属" : "通用"}
             </span>
@@ -97,7 +109,12 @@ const pages = [
         ))
       }
 
-      <button type="button" class="tile chat" aria-label="打开表情" aria-expanded="false">
+      <button
+        type="button"
+        class="tile chat"
+        aria-label="打开表情"
+        aria-expanded="false"
+      >
         <svg class="bubble" viewBox="0 0 120 100" aria-hidden="true">
           <path
             d="M22 4H98A18 18 0 0 1 116 22V62A18 18 0 0 1 98 80H69L60 92L51 80H22A18 18 0 0 1 4 62V22A18 18 0 0 1 22 4Z"
@@ -112,7 +129,11 @@ const pages = [
             stroke="#38242b"
             stroke-width="3"
             stroke-linejoin="round"></path>
-          <path d="M24 9H96" stroke="#c4b3b9" stroke-width="3" stroke-linecap="round"></path>
+          <path
+            d="M24 9H96"
+            stroke="#c4b3b9"
+            stroke-width="3"
+            stroke-linecap="round"></path>
           <g fill="#38242b">
             <circle cx="36" cy="54" r="10"></circle>
             <circle cx="60" cy="54" r="10"></circle>
@@ -122,8 +143,9 @@ const pages = [
       </button>
     </div>
   </div>
-  <figcaption class="text-center text-sm text-muted-foreground">
-    点右下角打开表情，点右上角切换：4 页一共 16 个表情，第一页上面两个是角色专属表情，其余都是通用表情
+  <figcaption class="text-muted-foreground text-center text-sm">
+    点右下角打开表情，点右上角切换：4 页一共 16
+    个表情，第一页上面两个是角色专属表情，其余都是通用表情
   </figcaption>
 </figure>
 
@@ -165,13 +187,16 @@ const pages = [
             { duration: 320, delay, easing: "ease-in-out" }
           );
         }
-        setTimeout(() => {
-          const { src, specific } = pages[page][slot];
-          tile.querySelector(".pin").src = src;
-          const badge = tile.querySelector(".badge");
-          badge.dataset.specific = String(specific);
-          badge.textContent = specific ? "专属" : "通用";
-        }, reduceMotion ? 0 : 160 + delay);
+        setTimeout(
+          () => {
+            const { src, specific } = pages[page][slot];
+            tile.querySelector(".pin").src = src;
+            const badge = tile.querySelector(".badge");
+            badge.dataset.specific = String(specific);
+            badge.textContent = specific ? "专属" : "通用";
+          },
+          reduceMotion ? 0 : 160 + delay
+        );
       });
     };
 
@@ -315,11 +340,21 @@ const pages = [
   }
 
   /* Pop the tiles in one after another when opening */
-  .stage[data-open="true"] .tile:nth-child(1) { transition-delay: 0ms; }
-  .stage[data-open="true"] .tile:nth-child(2) { transition-delay: 40ms; }
-  .stage[data-open="true"] .tile:nth-child(3) { transition-delay: 80ms; }
-  .stage[data-open="true"] .tile:nth-child(4) { transition-delay: 120ms; }
-  .stage[data-open="true"] .tile:nth-child(5) { transition-delay: 160ms; }
+  .stage[data-open="true"] .tile:nth-child(1) {
+    transition-delay: 0ms;
+  }
+  .stage[data-open="true"] .tile:nth-child(2) {
+    transition-delay: 40ms;
+  }
+  .stage[data-open="true"] .tile:nth-child(3) {
+    transition-delay: 80ms;
+  }
+  .stage[data-open="true"] .tile:nth-child(4) {
+    transition-delay: 120ms;
+  }
+  .stage[data-open="true"] .tile:nth-child(5) {
+    transition-delay: 160ms;
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .tile,
