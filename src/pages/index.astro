@@ -10,6 +10,7 @@ import Socials from "@/components/Socials.astro";
 import Card from "@/components/Card.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import TokenHeatmap from "@/components/TokenHeatmap.astro";
+import TechStack from "@/components/TechStack.astro";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 import { useTranslations } from "@/i18n";
 import config from "@/config";
@@ -112,6 +113,19 @@ const homePath = getRelativeLocaleUrl(locale, "");
     <section id="token-usage" class="border-border border-t pt-12 pb-8">
       <h2 class="mb-4 text-2xl font-semibold tracking-wide">Token Usage</h2>
       <TokenHeatmap />
+    </section>
+
+    <TechStack />
+
+    <section aria-label="Quote" class="py-10 text-center">
+      <figure>
+        <blockquote class="text-base leading-relaxed sm:text-lg">
+          <p>You miss 100% of the shots you don&apos;t take.</p>
+        </blockquote>
+        <figcaption class="text-muted-foreground mt-3 text-sm">
+          — Wayne Gretzky
+        </figcaption>
+      </figure>
     </section>
   </main>
   <Footer />

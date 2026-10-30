@@ -1,0 +1,92 @@
+---
+import GitHubIcon from "@/assets/icons/tech/github-light.svg";
+import GitHubDarkIcon from "@/assets/icons/tech/github-dark.svg";
+import CodexIcon from "@/assets/icons/tech/codex-light.svg";
+import CodexDarkIcon from "@/assets/icons/tech/codex-dark.svg";
+import ClaudeIcon from "@/assets/icons/tech/claude.svg";
+import CloudflareIcon from "@/assets/icons/tech/cloudflare.svg";
+import DeepSeekIcon from "@/assets/icons/tech/deepseek.svg";
+import PythonIcon from "@/assets/icons/tech/python.svg";
+import RustIcon from "@/assets/icons/tech/rust-light.svg";
+import RustDarkIcon from "@/assets/icons/tech/rust-dark.svg";
+import TypeScriptIcon from "@/assets/icons/tech/typescript.svg";
+import PiAgentIcon from "@/assets/icons/tech/pi-agent.svg";
+
+const technologies = [
+  {
+    name: "GitHub",
+    Icon: GitHubIcon,
+    DarkIcon: GitHubDarkIcon,
+    href: "https://github.com/Mist-wu",
+  },
+  {
+    name: "Codex",
+    Icon: CodexIcon,
+    DarkIcon: CodexDarkIcon,
+    href: "https://openai.com/codex/",
+  },
+  { name: "Claude", Icon: ClaudeIcon, href: "https://claude.ai/" },
+  {
+    name: "Cloudflare",
+    Icon: CloudflareIcon,
+    href: "https://www.cloudflare.com/",
+  },
+  { name: "DeepSeek", Icon: DeepSeekIcon, href: "https://www.deepseek.com/" },
+  { name: "Python", Icon: PythonIcon, href: "https://www.python.org/" },
+  {
+    name: "Rust",
+    Icon: RustIcon,
+    DarkIcon: RustDarkIcon,
+    href: "https://www.rust-lang.org/",
+  },
+  {
+    name: "TypeScript",
+    Icon: TypeScriptIcon,
+    href: "https://www.typescriptlang.org/",
+  },
+  { name: "Pi Agent", Icon: PiAgentIcon, href: "https://pi.dev/" },
+];
+---
+
+<section
+  id="tech-stack"
+  aria-labelledby="tech-stack-heading"
+  class="border-border border-t pt-12 pb-8"
+>
+  <h2 id="tech-stack-heading" class="mb-6 text-2xl font-semibold tracking-wide">
+    Tech Stack
+  </h2>
+  <ul class="flex flex-wrap items-center gap-3">
+    {
+      technologies.map(({ name, Icon, DarkIcon, href }) => (
+        <li class="flex">
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={name}
+            title={name}
+            class="inline-flex size-11 items-center justify-center rounded-sm transition-opacity hover:opacity-75"
+          >
+            <Icon
+              width={36}
+              height={36}
+              aria-hidden="true"
+              focusable="false"
+              class:list={{ "dark:hidden": DarkIcon }}
+            />
+            {DarkIcon && (
+              <DarkIcon
+                width={36}
+                height={36}
+                aria-hidden="true"
+                focusable="false"
+                class="hidden dark:block"
+              />
+            )}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
