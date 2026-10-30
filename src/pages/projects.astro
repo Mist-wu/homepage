@@ -4,7 +4,7 @@ import Header from "@/components/Header.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
 import Main from "@/components/Main.astro";
 import Footer from "@/components/Footer.astro";
-import projects from "@/data/projects";
+import projects, { projectCategories } from "@/data/projects";
 import { useTranslations } from "@/i18n";
 import config from "@/config";
 
@@ -15,46 +15,55 @@ const t = useTranslations(Astro.currentLocale ?? config.site.lang);
   <Header />
   <Breadcrumb />
   <Main pageTitle={t.pages.projectsTitle} pageDesc={t.pages.projectsDesc}>
-    <ul class="grid gap-6 md:grid-cols-2">
+    <div class="space-y-12">
       {
-        projects.map(({ title, description, href, imgSrc }) => (
-          <li class="border-border flex flex-col overflow-hidden rounded-md border-2">
-            {imgSrc && (
-              <a href={href} target="_blank" rel="noopener noreferrer">
-                <img
-                  src={imgSrc}
-                  alt={title}
-                  class="aspect-video w-full object-cover"
-                  loading="lazy"
-                />
-              </a>
-            )}
-            <div class="flex flex-1 flex-col p-6">
-              <h2 class="mb-3 text-2xl font-bold">
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="hover:text-accent"
-                >
-                  {title}
-                </a>
-              </h2>
-              <p class="mb-3 flex-1 opacity-80">{description}</p>
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-accent font-medium hover:underline"
-                aria-label={`Learn more about ${title}`}
-              >
-                Learn more &rarr;
-              </a>
-            </div>
-          </li>
+        projectCategories.map(category => (
+          <section aria-label={category}>
+            <h2 class="mb-5 text-xl font-semibold">{category}</h2>
+            <ul class="grid gap-6 md:grid-cols-2">
+              {projects
+                .filter(project => project.category === category)
+                .map(({ title, description, href, imgSrc }) => (
+                  <li class="border-border flex flex-col overflow-hidden rounded-md border-2">
+                    {imgSrc && (
+                      <a href={href} target="_blank" rel="noopener noreferrer">
+                        <img
+                          src={imgSrc}
+                          alt={title}
+                          class="aspect-video w-full object-cover"
+                          loading="lazy"
+                        />
+                      </a>
+                    )}
+                    <div class="flex flex-1 flex-col p-6">
+                      <h3 class="mb-3 text-2xl font-bold">
+                        <a
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="hover:text-accent"
+                        >
+                          {title}
+                        </a>
+                      </h3>
+                      <p class="mb-3 flex-1 opacity-80">{description}</p>
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-accent font-medium hover:underline"
+                        aria-label={`Learn more about ${title}`}
+                      >
+                        Learn more &rarr;
+                      </a>
+                    </div>
+                  </li>
+                ))}
+            </ul>
+          </section>
         ))
       }
-    </ul>
+    </div>
   </Main>
   <Footer />
 </Layout>
