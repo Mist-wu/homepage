@@ -33,19 +33,29 @@ const projects: Project[] = [
     href: "https://github.com/Mist-wu/cc-skills",
   },
   {
-    title: "kong.bupt8.com",
-    description: "Web app for finding empty classrooms at BUPT.",
-    href: "https://kong.bupt8.com",
-  },
-  {
-    title: "vtxt",
+    title: "txt.mistwu.com",
     description: "Turn videos and images into ASCII art, right in the browser.",
-    href: "https://vtxt.pages.dev",
+    href: "https://txt.mistwu.com",
   },
   {
-    title: "bysou",
+    title: "tree.mistwu.com",
+    description: "A blog template that turns folders and files into a pixel tree.",
+    href: "https://tree.mistwu.com",
+  },
+  {
+    title: "bayes.mistwu.com",
     description: "Interactive Bayesian search game: find the target in a 10×10 sea.",
-    href: "https://bysou.pages.dev",
+    href: "https://bayes.mistwu.com",
+  },
+  {
+    title: "prob.mistwu.com",
+    description: "Explore probability through interactive simulations.",
+    href: "https://prob.mistwu.com",
+  },
+  {
+    title: "orbit.mistwu.com",
+    description: "A space-themed blog for articles, short notes, and photos.",
+    href: "https://orbit.mistwu.com",
   },
 ];
 
