@@ -33,6 +33,11 @@ const projects: Project[] = [
     href: "https://github.com/Mist-wu/cc-skills",
   },
   {
+    title: "art.mistwu.com",
+    description: "Explore 56 public-domain paintings in an interactive 3D gallery.",
+    href: "https://art.mistwu.com",
+  },
+  {
     title: "txt.mistwu.com",
     description: "Turn videos and images into ASCII art, right in the browser.",
     href: "https://txt.mistwu.com",
