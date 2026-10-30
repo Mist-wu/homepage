@@ -1,16 +1,20 @@
 ---
-import GitHubIcon from "@/assets/icons/tech/github-light.svg";
-import GitHubDarkIcon from "@/assets/icons/tech/github-dark.svg";
-import CodexIcon from "@/assets/icons/tech/codex-light.svg";
-import CodexDarkIcon from "@/assets/icons/tech/codex-dark.svg";
-import ClaudeIcon from "@/assets/icons/tech/claude.svg";
-import CloudflareIcon from "@/assets/icons/tech/cloudflare.svg";
-import DeepSeekIcon from "@/assets/icons/tech/deepseek.svg";
-import PythonIcon from "@/assets/icons/tech/python.svg";
-import RustIcon from "@/assets/icons/tech/rust-light.svg";
-import RustDarkIcon from "@/assets/icons/tech/rust-dark.svg";
-import TypeScriptIcon from "@/assets/icons/tech/typescript.svg";
-import PiAgentIcon from "@/assets/icons/tech/pi-agent.svg";
+import GitHubIcon from "@/assets/icons/tech/github-light.svg?url";
+import GitHubDarkIcon from "@/assets/icons/tech/github-dark.svg?url";
+import CodexIcon from "@/assets/icons/tech/codex-light.svg?url";
+import CodexDarkIcon from "@/assets/icons/tech/codex-dark.svg?url";
+import ClaudeIcon from "@/assets/icons/tech/claude.svg?url";
+import CloudflareIcon from "@/assets/icons/tech/cloudflare.svg?url";
+import DeepSeekIcon from "@/assets/icons/tech/deepseek.svg?url";
+import PythonIcon from "@/assets/icons/tech/python.svg?url";
+import RustIcon from "@/assets/icons/tech/rust-light.svg?url";
+import RustDarkIcon from "@/assets/icons/tech/rust-dark.svg?url";
+import TypeScriptIcon from "@/assets/icons/tech/typescript.svg?url";
+import PiAgentIcon from "@/assets/icons/tech/pi-agent.svg?url";
+import ViteIcon from "@/assets/icons/tech/vite.svg?url";
+import ReactIcon from "@/assets/icons/tech/react-light.svg?url";
+import ReactDarkIcon from "@/assets/icons/tech/react-dark.svg?url";
+import SQLiteIcon from "@/assets/icons/tech/sqlite.svg?url";
 
 const technologies = [
   {
@@ -45,6 +49,14 @@ const technologies = [
     href: "https://www.typescriptlang.org/",
   },
   { name: "Pi Agent", Icon: PiAgentIcon, href: "https://pi.dev/" },
+  { name: "Vite", Icon: ViteIcon, href: "https://vite.dev/" },
+  {
+    name: "React",
+    Icon: ReactIcon,
+    DarkIcon: ReactDarkIcon,
+    href: "https://react.dev/",
+  },
+  { name: "SQLite", Icon: SQLiteIcon, href: "https://www.sqlite.org/" },
 ];
 ---
 
@@ -68,19 +80,21 @@ const technologies = [
             title={name}
             class="inline-flex size-11 items-center justify-center rounded-sm transition-opacity hover:opacity-75"
           >
-            <Icon
+            <img
+              src={Icon}
               width={36}
               height={36}
+              alt=""
               aria-hidden="true"
-              focusable="false"
               class:list={{ "dark:hidden": DarkIcon }}
             />
             {DarkIcon && (
-              <DarkIcon
+              <img
+                src={DarkIcon}
                 width={36}
                 height={36}
+                alt=""
                 aria-hidden="true"
-                focusable="false"
                 class="hidden dark:block"
               />
             )}

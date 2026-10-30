@@ -1,8 +1,10 @@
 # Tech Stack icons
 
-The eight brands use [SVGL](https://svgl.app) assets from [pheralb/svgl](https://github.com/pheralb/svgl/tree/c0ec7ab121354ac1096b17b3aebbb293c8ce5600/static/library), pinned to commit `c0ec7ab121354ac1096b17b3aebbb293c8ce5600`.
+The GitHub, Codex, Claude, Cloudflare, DeepSeek, Python, Rust, TypeScript, Vite, React, and SQLite icons use [SVGL](https://svgl.app) assets from [pheralb/svgl](https://github.com/pheralb/svgl/tree/c0ec7ab121354ac1096b17b3aebbb293c8ce5600/static/library), pinned to commit `c0ec7ab121354ac1096b17b3aebbb293c8ce5600`.
 
-Python uses the blue and yellow logo without a drop shadow. GitHub, Codex, and Rust use the library's light and dark variants; the other brands retain their original colors. The SVGs are stored locally and rendered inline, with no client request to an icon service.
+Python uses the blue and yellow logo without a drop shadow. GitHub, Codex, Rust, and React use the library's light and dark variants; the other brands retain their original colors. The SVGs are stored locally and served as separate images so their masks and gradients cannot collide. No requests are made to external icon services.
+
+SQLite uses the database and feather symbol with the wordmark removed and the `viewBox` cropped to match the other icons.
 
 SVGL is MIT licensed. The license is included in `public/licenses/svgl.txt`. Brand names and logos belong to their respective owners.
 
