@@ -4,7 +4,7 @@ export const projectCategories = [
   "Simulations",
 ] as const;
 
-export type Project = {
+type Project = {
   category: (typeof projectCategories)[number];
   title: string;
   description: string;
